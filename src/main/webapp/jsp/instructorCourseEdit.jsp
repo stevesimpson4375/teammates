@@ -3,6 +3,7 @@
 <%@ taglib tagdir="/WEB-INF/tags" prefix="t" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor" prefix="ti" %>
 <%@ taglib tagdir="/WEB-INF/tags/instructor/course" prefix="course" %>
+<%@ page import="teammates.common.util.Const" %>
 
 <c:set var="jsIncludes">
     <script type="text/javascript" src="/js/lib/moment.min.js"></script>
@@ -15,6 +16,7 @@
     <script type="text/javascript" src="/js/instructorCourseEdit.js"></script>
     <script type="text/javascript" src="/js/instructorCourseEditAjax.js"></script>
 </c:set>
+<c:set var="instructorHelpPage" value="<%= Const.ViewURIs.INSTRUCTOR_HELP %>" />
 
 <ti:instructorPage pageTitle="TEAMMATES - Instructor" bodyTitle="Edit Course Details" jsIncludes="${jsIncludes}">
     <course:courseEditCourseInfo 
@@ -24,7 +26,7 @@
     <br>
     <t:statusMessage statusMessagesToUser="${data.statusMessagesToUser}" />
     <div class="pull-right">
-        <a href="/instructorHelp.jsp#editCourse" class="small" target="_blank">
+        <a href="${instructorHelpPage}#editCourse" class="small" target="_blank">
             <span class="glyphicon glyphicon-info-sign"></span>
             More about configuring access permissions
         </a>
