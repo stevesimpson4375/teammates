@@ -20,8 +20,8 @@ import teammates.test.pageobjects.Browser;
 import teammates.test.pageobjects.BrowserPool;
 import teammates.test.pageobjects.InstructorFeedbackEditPage;
 import teammates.test.pageobjects.InstructorFeedbackResultsPage;
-import teammates.test.util.Priority;
 import teammates.test.util.FileHelper;
+import teammates.test.util.Priority;
 
 /**
  * Tests 'Feedback Results' view of instructors.
@@ -55,6 +55,7 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     @Test
     public void testFrontEndActions() throws Exception {
+        testDefaultSort();
         testSortAction();
         testFilterAction();
         testPanelsCollapseExpand();
@@ -70,6 +71,12 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
 
     public void testContent() throws Exception {
 
+        ______TS("Typical case: large session with no sections");
+
+        resultsPage = loginToInstructorFeedbackResultsPageWithViewType("CFResultsUiT.instr",
+                "Session with no sections", true, "question");
+        resultsPage.verifyStatus(Const.StatusMessages.FEEDBACK_RESULTS_QUESTIONVIEWWARNING);
+        
         ______TS("Typical case: standard session results");
 
         resultsPage = loginToInstructorFeedbackResultsPage("CFResultsUiT.instr", "Open Session");
@@ -155,9 +162,9 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         ______TS("Typical case: test moderate responses button for individual response (including no response)");
 
         verifyModerateResponsesButton(2, "CFResultsUiT.alice.b@gmail.tmt", "CFResultsUiT.benny.c@gmail.tmt",
-                                      "CFResultsUiT.fred.g@gmail.tmt",
-                                      "CFResultsUiT.charlie.d@gmail.tmt", "CFResultsUiT.danny.e@gmail.tmt",
-                                      "drop.out@gmail.tmt", "extra.guy@gmail.tmt", "CFResultsUiT.emily.f@gmail.tmt");
+                "CFResultsUiT.fred.g@gmail.tmt", "CFResultsUiT.charlie.d@gmail.tmt",
+                "CFResultsUiT.danny.e@gmail.tmt", "drop.out@gmail.tmt",
+                "extra.guy@gmail.tmt", "CFResultsUiT.emily.f@gmail.tmt");
 
         ______TS("Typical case: test moderate responses button for team response");
 
@@ -590,6 +597,15 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         resultsPage.displayByQuestion();
     }
 
+    public void testDefaultSort() throws Exception {
+
+        ______TS("Typical case: test default sort Team Name-->Giver display name");
+
+        resultsPage.fillSearchBox("default sort");
+        resultsPage.verifyHtmlMainContent("/instructorFeedbackResultDefaultSort.html");
+    }
+
+    
     // TODO unnecessary coupling of FRComments test here. this should be tested separately.
     public void testFeedbackResponseCommentActions() throws Exception {
 
@@ -664,7 +680,8 @@ public class InstructorFeedbackResultsPageUiTest extends BaseUiTestCase {
         AppUrl reportUrl = createUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_DOWNLOAD)
                                                   .withUserId("CFResultsUiT.instr")
                                                   .withCourseId("CFResultsUiT.CS2104")
-                                                  .withSessionName("First Session");
+                                                  .withSessionName("First Session")
+                                                  .withDownloadType("csv");
 
         resultsPage.verifyDownloadLink(reportUrl);
 
