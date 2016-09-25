@@ -1359,6 +1359,7 @@ public final class Const {
                     + "<li>Put more keywords to search for more precise results.</li>"
                     + "<li>Put quotation marks around words <b>\"[any word]\"</b>"
                             + " to search for an exact phrase in an exact order.</li>"
+                    + "<li>Use % for the wildcard character.</li>"
                 + "</ul>";
         
         public static final String COMMENT_ADDED = "New comment has been added";
